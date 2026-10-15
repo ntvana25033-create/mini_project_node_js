@@ -1,0 +1,3 @@
+<%- include('partials/header') %>
+<a class="back-link" href="/dashboard">← Admin desk</a><section class="directory-page"><p class="eyebrow">ADMIN DIRECTORY</p><h1>Publishing <em>partners.</em></h1><div class="data-table"><div class="data-row data-head"><span>Name / User ID</span><span>Email</span><span>Role</span><span>Joined</span></div><% publishers.forEach((publisher) => { %><div class="data-row"><span><strong><%= publisher.displayName %></strong><small>@<%= publisher.userId %></small></span><span><%= publisher.email || '—' %></span><span><span class="status status-publisher">publisher</span></span><span><%= publisher.createdAt.toLocaleDateString() %></span></div><% }) %></div></section>
+<%- include('partials/footer') %>

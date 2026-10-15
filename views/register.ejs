@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<section class="form-page">
+  <div class="form-heading"><p class="eyebrow">A SEAT AT THE TABLE</p><h1>Make room<br><em>for a new story.</em></h1><p>Join as a reader or share the next book coming to market.</p></div>
+  <div class="form-panel"><h2>Create your account</h2>
+    <form action="/register" method="post" class="stack-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label>Display name<input name="displayName" required maxlength="80" autocomplete="name"></label>
+      <label>User ID<input name="userId" required minlength="3" maxlength="40" pattern="[A-Za-z0-9_.-]+" autocomplete="username"></label>
+      <label>Email <span class="optional">optional</span><input name="email" type="email" maxlength="120" autocomplete="email"></label>
+      <label>Account type<select name="role" required><option value="reader">Reader</option><option value="publisher">Publisher</option></select></label>
+      <fieldset class="interest-options"><legend>Reading interests <span class="optional">optional, for readers</span></legend><div><% ['Fiction','Science','Technology','Mystery','History','Business','Other'].forEach((category) => { %><label><input type="checkbox" name="interests" value="<%= category %>"><span><%= category %></span></label><% }) %></div></fieldset>
+      <div class="field-row"><label>ZIP / postal code<input name="zipCode" required maxlength="16" autocomplete="postal-code"></label><label>Mobile number<input name="mobile" required maxlength="24" autocomplete="tel"></label></div>
+      <label>Password <span class="optional">8 characters minimum</span><input name="password" type="password" required minlength="8" autocomplete="new-password"></label>
+      <label>Confirm password<input name="confirmPassword" type="password" required minlength="8" autocomplete="new-password"></label>
+      <button class="button button-dark button-full" type="submit">Create account <span aria-hidden="true">↗</span></button>
+    </form>
+  </div>
+</section>
+<%- include('partials/footer') %>

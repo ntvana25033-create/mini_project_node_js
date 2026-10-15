@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<a class="back-link" href="/">← Back to discovery</a>
+<section class="detail-hero">
+  <div class="detail-cover cover-tone-<%= book.category.length % 4 %>">
+    <% if (book.coverUrl) { %><img src="<%= book.coverUrl %>" alt="Cover of <%= book.title %>"><% } else { %><span class="cover-kicker"><%= book.category %></span><span class="cover-title"><%= book.title %></span><span class="cover-author"><%= book.author %></span><% } %>
+    <span class="cover-tag">ADVANCE COPY</span>
+  </div>
+  <div class="detail-copy"><p class="eyebrow"><%= book.category %> / EARLY ACCESS</p><h1><%= book.title %></h1><p class="detail-byline">By <%= book.author %></p><p class="detail-description"><%= book.description %></p><div class="rating-summary"><strong><%= average ? average.toFixed(1) : '—' %></strong><span class="rating-stars" aria-label="Average rating"><%= average ? '★'.repeat(Math.round(average)) : '☆☆☆☆☆' %></span><span><%= reviews.length %> reader notes</span></div><p class="publisher-credit">Shared by <%= book.publisher?.displayName || 'Independent publisher' %></p></div>
+</section>
+
+<div class="detail-columns">
+  <section class="content-section" id="reviews"><div class="section-heading"><div><p class="eyebrow">MARGINALIA</p><h2>Reader reviews</h2></div><span class="result-count"><%= reviews.length %> reviews</span></div>
+    <% if (currentUser?.role === 'reader') { %>
+      <form class="inline-composer" action="/books/<%= book._id %>/reviews" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><label>Rating<select name="rating" required><option value="5">5 - Loved it</option><option value="4">4 - Recommended</option><option value="3">3 - Enjoyed it</option><option value="2">2 - Not for me</option><option value="1">1 - Disappointed</option></select></label><label class="grow-field">Your review<textarea name="comment" rows="3" maxlength="1500" required placeholder="What stayed with you?"></textarea></label><button class="button button-dark" type="submit">Post review <span aria-hidden="true">↗</span></button></form>
+    <% } else if (!currentUser) { %><p class="sign-in-note"><a href="/login">Sign in as a reader</a> to leave a review.</p><% } %>
+    <div class="review-list">
+      <% if (reviews.length) { reviews.forEach((review) => { %><article class="reader-note"><div class="note-heading"><strong><%= review.user?.displayName || 'Reader' %></strong><span class="rating-stars"><%= '★'.repeat(review.rating) %><%= '☆'.repeat(5 - review.rating) %></span><time><%= review.createdAt.toLocaleDateString() %></time></div><p><%= review.comment %></p></article><% }) } else { %><p class="empty-line">No reviews yet. Yours could be the first.</p><% } %>
+    </div>
+  </section>
+  <aside class="conversation-rail">
+    <section class="content-section" id="forum"><p class="eyebrow">OPEN DISCUSSION</p><h2>Book forum</h2>
+      <% if (currentUser?.role === 'reader') { %><form action="/books/<%= book._id %>/forum" method="post" class="mini-form"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><label class="sr-only" for="forum-message">Add to the discussion</label><textarea id="forum-message" name="message" rows="2" maxlength="1200" required placeholder="Add to the discussion"></textarea><button class="text-button" type="submit">Post a thought ↗</button></form><% } %>
+      <% if (posts.length) { posts.forEach((post) => { %><article class="forum-post"><strong><%= post.user?.displayName || 'Reader' %></strong><p><%= post.message %></p><time><%= post.createdAt.toLocaleDateString() %></time></article><% }) } else { %><p class="empty-line">The conversation starts here.</p><% } %>
+    </section>
+    <section class="content-section feedback-section" id="feedback"><p class="eyebrow">A NOTE TO THE PUBLISHER</p><h2>Private feedback</h2>
+      <% if (currentUser?.role === 'reader') { %><form action="/books/<%= book._id %>/feedback" method="post" class="mini-form"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><label class="sr-only" for="feedback-message">Feedback for the publisher</label><textarea id="feedback-message" name="message" rows="2" maxlength="1200" required placeholder="What could make this book even better?"></textarea><button class="text-button" type="submit">Send privately ↗</button></form><% } else { %><p class="empty-line">Reader notes sent here are visible to the publisher team.</p><% } %>
+      <% if (currentUser?.role === 'admin') { feedback.forEach((item) => { %><article class="forum-post"><strong><%= item.user?.displayName || 'Reader' %></strong><p><%= item.message %></p></article><% }) } %>
+    </section>
+  </aside>
+</div>
+<%- include('partials/footer') %>

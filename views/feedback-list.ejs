@@ -1,0 +1,3 @@
+<%- include('partials/header') %>
+<a class="back-link" href="/dashboard">← Admin desk</a><section class="directory-page"><p class="eyebrow">EDITORIAL INBOX</p><h1>Notes from <em>readers.</em></h1><div class="feedback-list"><% if (feedback.length) { feedback.forEach((item) => { %><article class="reader-note"><div class="note-heading"><strong><%= item.user?.displayName || 'Reader' %></strong><span><%= item.book?.title || 'Book' %></span><time><%= item.createdAt.toLocaleDateString() %></time></div><p><%= item.message %></p></article><% }) } else { %><p class="empty-line">No feedback has been sent yet.</p><% } %></div></section>
+<%- include('partials/footer') %>

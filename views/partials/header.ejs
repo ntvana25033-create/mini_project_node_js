@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <title><%= title %> | First Press</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="First Press home"><span class="wordmark-mark">F</span> First Press</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="/">Discover</a>
+      <% if (currentUser) { %>
+        <a href="/dashboard">My desk</a>
+        <% if (currentUser.role === 'publisher') { %><a href="/publisher/feedback">Feedback</a><% } %>
+        <% if (currentUser.role === 'admin') { %><a href="/admin/users">People</a><% } %>
+        <a href="/change-password">Password</a>
+        <span class="nav-user"><%= currentUser.displayName %></span>
+        <form action="/logout" method="post" class="inline-form"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="nav-link" type="submit">Sign out</button></form>
+      <% } else { %>
+        <a href="/login">Sign in</a>
+        <a class="nav-join" href="/register">Join</a>
+      <% } %>
+    </nav>
+  </header>
+  <main class="page-shell">

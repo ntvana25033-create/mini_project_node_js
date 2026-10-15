@@ -1,0 +1,22 @@
+{
+  "name": "book-review-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A role-based book review portal built with Express and MongoDB.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "test:roles": "node scripts/test-roles.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "connect-mongo": "^5.1.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.19.1"
+  }
+}

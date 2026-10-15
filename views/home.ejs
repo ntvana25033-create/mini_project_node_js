@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+<section class="home-intro">
+  <p class="eyebrow">THE EARLY READING ROOM</p>
+  <h1>Find your next<br><em>first favourite.</em></h1>
+  <p class="intro-copy">Discover books before they hit the shelves. Read a preview, meet the readers, and leave the first word.</p>
+  <form class="search-bar" action="/" method="get">
+    <label class="sr-only" for="search">Search by book or author</label>
+    <input id="search" name="q" type="search" placeholder="Title or author" value="<%= q %>">
+    <label class="sr-only" for="category">Category</label>
+    <select id="category" name="category">
+      <option value="">All shelves</option>
+      <% categories.forEach((item) => { %><option value="<%= item %>" <%= category === item ? 'selected' : '' %>><%= item %></option><% }) %>
+    </select>
+    <button class="button button-dark" type="submit">Explore <span aria-hidden="true">↗</span></button>
+  </form>
+  <div class="intro-stamp"><span>READ</span><span>IT</span><span>FIRST</span></div>
+</section>
+
+<section class="shelf-section" aria-labelledby="shelf-title">
+  <div class="section-heading">
+    <div><p class="eyebrow">CURATED FOR CURIOUS MINDS</p><h2 id="shelf-title"><%= q || category ? 'Your search' : 'Fresh off the press' %></h2></div>
+    <span class="result-count"><%= books.length %> titles</span>
+  </div>
+  <% if (books.length) { %>
+    <div class="book-grid">
+      <% books.forEach((book, index) => { const rating = ratingByBook.get(String(book._id)); %>
+        <a class="book-card" href="/books/<%= book._id %>">
+          <div class="book-cover cover-tone-<%= index % 4 %>">
+            <% if (book.coverUrl) { %><img src="<%= book.coverUrl %>" alt="Cover of <%= book.title %>" loading="lazy"><% } else { %><span class="cover-kicker"><%= book.category %></span><span class="cover-title"><%= book.title %></span><span class="cover-author"><%= book.author %></span><% } %>
+            <span class="cover-tag">EARLY ACCESS</span>
+          </div>
+          <div class="book-card-info"><span class="book-category"><%= book.category %></span><h3><%= book.title %></h3><p>by <%= book.author %></p><div class="book-meta"><span><%= rating ? rating.average.toFixed(1) + ' / 5' : 'Be first to rate' %></span><span>Read notes <b aria-hidden="true">↗</b></span></div></div>
+        </a>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="empty-state"><span class="empty-mark">01</span><h3>No books on this shelf yet.</h3><p>Try another search, or come back when the next advance copy arrives.</p></div>
+  <% } %>
+</section>
+<%- include('partials/footer') %>
