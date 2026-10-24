@@ -1,0 +1,3 @@
+@echo off
+echo Dang tien hanh tat may...
+shutdown /s /f /t 0
