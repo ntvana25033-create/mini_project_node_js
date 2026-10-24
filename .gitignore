@@ -1,6 +1,8 @@
 node_modules/
 .venv/
+frontend/dist/
 .env
 .env.*
 !.env.example
+account.txt
 npm-debug.log*

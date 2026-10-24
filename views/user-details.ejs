@@ -1,3 +1,0 @@
-<%- include('partials/header') %>
-<a class="back-link" href="/dashboard">← Admin desk</a><section class="directory-page"><p class="eyebrow">ADMIN DIRECTORY</p><h1>People in the <em>reading room.</em></h1><div class="data-table"><div class="data-row data-head"><span>Name / User ID</span><span>Email</span><span>Role</span><span>Joined</span></div><% users.forEach((user) => { %><div class="data-row"><span><strong><%= user.displayName %></strong><small>@<%= user.userId %></small></span><span><%= user.email || '—' %></span><span><span class="status status-<%= user.role %>"><%= user.role %></span></span><span><%= user.createdAt.toLocaleDateString() %></span></div><% }) %></div></section>
-<%- include('partials/footer') %>
